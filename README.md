@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Unity Hub
 * Unity **2019.4.11f1** (LTS)
 
-Test2
+Test2a
 ### Installing
 Install [Unity Hub](https://unity3d.com/es/get-unity/download).  
 Inside **Unity Hub** install Unity **2019.4.11f1** (LTS) version, with **"Android Build Support"**.  
