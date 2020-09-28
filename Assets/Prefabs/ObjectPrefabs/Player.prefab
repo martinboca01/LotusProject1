@@ -408,8 +408,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  WalkSpeed: 4
-  RunSpeed: 7
+  WalkSpeed: 3
+  RunSpeed: 6
   Sprinting: 0
   sprintingButtonBG: {fileID: 2027720713477489050}
   Stamina: 0
