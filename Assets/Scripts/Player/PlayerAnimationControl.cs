@@ -11,6 +11,8 @@ public class PlayerAnimationControl : MonoBehaviour
     public NetworkManager NetManager;
     public AxisControl AxisManager;
 
+    public Joystick joystickControls;
+
     public string WhatAnim;
     public string OldAnim;
 
@@ -27,7 +29,7 @@ public class PlayerAnimationControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        SwitchAnimationJoystick();
         //.......
 
         PacketCooldown -= Time.deltaTime;
@@ -54,6 +56,30 @@ public class PlayerAnimationControl : MonoBehaviour
         if (NetManager.Mode)
         {
             NetManager.SendPacket("anim" + Direction);
+        }
+    }
+
+    private void SwitchAnimationJoystick()
+    {
+        if (joystickControls.Vertical > joystickControls.DeadZone)
+        {
+            SwitchAnimation("Up");
+        }
+        else if (joystickControls.Vertical < -joystickControls.DeadZone)
+        {
+            SwitchAnimation("Down");
+        }
+        else if (joystickControls.Horizontal > joystickControls.DeadZone)
+        {
+            SwitchAnimation("Right");
+        }
+        else if (joystickControls.Horizontal < -joystickControls.DeadZone)
+        {
+            SwitchAnimation("Left");
+        }
+        else
+        {
+            SwitchAnimation("Idle");
         }
     }
 

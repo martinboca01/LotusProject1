@@ -418,7 +418,7 @@ MonoBehaviour:
   FX: []
   joystickControls: {fileID: 4495261391407264263}
   playerAnimationController: {fileID: 6277741171191243801}
-  joyStickDeadZone: 0.5
+  joyStickDeadZone: 0.3
   debugJoystick: 0
   joystickDebugger: {fileID: 4964739060361312363}
   debugJoystickVertical: {fileID: 6272587959593185391}
@@ -439,6 +439,7 @@ MonoBehaviour:
   anim: {fileID: 6277741171191243800}
   NetManager: {fileID: 0}
   AxisManager: {fileID: 0}
+  joystickControls: {fileID: 4495261391407264263}
   WhatAnim: 
   OldAnim: 
   PacketCooldown: 0

@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Joystick settings")]
     public Joystick joystickControls;
     public PlayerAnimationControl playerAnimationController;
-    public float joyStickDeadZone = 0.6f;
+    public float joyStickDeadZone;
 
     //Debug joystick stuff
     [Header("Joystick debugger")]
@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         Sprinting = false;
         OldPos.x = transform.position.x;
         OldPos.y = transform.position.y;
+
+        joystickControls.DeadZone = joyStickDeadZone;
     }
 
     // Update is called once per frame
@@ -100,75 +102,17 @@ public class PlayerMovement : MonoBehaviour
     private void PlayerControls()
     {
         //Note Oulsen: Use the joyStickDeadZone float in the inspector to set when the joystick will respond (value between 0.1 and 1). 
-        //Example: 0.5f will enable movement when you move the joystick halfway and more towards the edge.
-        //Note Oulsen: There is probably a better way to code this with less code, but it's a working system now.
+        //Example: 0.5f will enable movement when you move the joystick more then halfway
 
-        //MoveUp
-        if (joystickControls.Vertical > joyStickDeadZone && joystickControls.Horizontal < joyStickDeadZone && joystickControls.Horizontal > -joyStickDeadZone)
-        {
-            transform.position = new Vector2(transform.position.x, transform.position.y +  moveSpeed * Time.deltaTime);
-            playerAnimationController.SwitchAnimation("Up");
-        }
-        //MoveDown
-        if (joystickControls.Vertical < -joyStickDeadZone && joystickControls.Horizontal < joyStickDeadZone && joystickControls.Horizontal > -joyStickDeadZone)
-        {
-            transform.position = new Vector2(transform.position.x, transform.position.y -  moveSpeed * Time.deltaTime);
-            playerAnimationController.SwitchAnimation("Down");
-        }
-        //MoveRight
-        if (joystickControls.Horizontal > joyStickDeadZone && joystickControls.Vertical < joyStickDeadZone && joystickControls.Vertical > -joyStickDeadZone)
-        {
-            transform.position = new Vector2(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y);
-            playerAnimationController.SwitchAnimation("Right");
-        }
-        //MoveLeft
-        if (joystickControls.Horizontal < -joyStickDeadZone && joystickControls.Vertical < joyStickDeadZone && joystickControls.Vertical > -joyStickDeadZone)
-        {
-            transform.position = new Vector2(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y);
-            playerAnimationController.SwitchAnimation("Left");
-        }
+        float checkInput = joystickControls.Vertical + joystickControls.Horizontal;
 
-        //MoveDiagonally (UpRight)
-        if (joystickControls.Vertical > joyStickDeadZone && joystickControls.Horizontal > joyStickDeadZone)
+        if (checkInput > 0 || checkInput < 0)
         {
-            float movespeedCorrected = moveSpeed / 1.5f;
-            transform.position = new Vector2(transform.position.x + movespeedCorrected * Time.deltaTime, transform.position.y + movespeedCorrected * Time.deltaTime);
-
-            //Needs a new animation
-            playerAnimationController.SwitchAnimation("Up");
-        }
-        //MoveDiagonally (UpLeft)
-        if (joystickControls.Vertical > joyStickDeadZone && joystickControls.Horizontal < -joyStickDeadZone)
-        {
-            float movespeedCorrected = moveSpeed / 1.5f;
-            transform.position = new Vector2(transform.position.x - movespeedCorrected * Time.deltaTime, transform.position.y + movespeedCorrected * Time.deltaTime);
-
-            //Needs a new animation
-            playerAnimationController.SwitchAnimation("Up");
-        }
-        //MoveDiagonally (DownRight)
-        if (joystickControls.Vertical < -joyStickDeadZone && joystickControls.Horizontal > joyStickDeadZone)
-        {
-            float movespeedCorrected = moveSpeed / 1.5f;
-            transform.position = new Vector2(transform.position.x + movespeedCorrected * Time.deltaTime, transform.position.y - movespeedCorrected * Time.deltaTime);
-
-            //Needs a new animation
-            playerAnimationController.SwitchAnimation("Down");
-        }
-        //MoveDiagonally (DownLeft)
-        if (joystickControls.Vertical < -joyStickDeadZone && joystickControls.Horizontal < -joyStickDeadZone)
-        {
-            float movespeedCorrected = moveSpeed / 1.5f;
-            transform.position = new Vector2(transform.position.x - movespeedCorrected * Time.deltaTime, transform.position.y - movespeedCorrected * Time.deltaTime);
-
-            //Needs a new animation
-            playerAnimationController.SwitchAnimation("Down");
-        }
-
-        //Idle (no input)
-        if (joystickControls.Vertical < joyStickDeadZone && joystickControls.Vertical > -joyStickDeadZone && joystickControls.Horizontal < joyStickDeadZone && joystickControls.Horizontal > -joyStickDeadZone)
-        {
-            playerAnimationController.SwitchAnimation("Idle");
+            transform.position = new Vector2
+                (
+                transform.position.x + joystickControls.Horizontal * moveSpeed * Time.deltaTime,
+                transform.position.y + joystickControls.Vertical * moveSpeed * Time.deltaTime
+                );
         }
 
         //Debug Joystick values
